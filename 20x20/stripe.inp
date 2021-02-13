@@ -1,0 +1,15 @@
+&parameters
+  lx=20,			! dlugosc paska
+  ly=20,			! szerokosc paska
+  t=-1., 		! calka przeskoku
+  delta=0.27		! parametr porzadku s-wave
+  alphay=0.,		! Rashba SOC w kierunku y
+  alphaz=0.0, 		! Rashba SOC w kierunku z 0.15
+  Bx=0.0, 		! pole magnetyczne w kierunku x
+  Bz=0.0,       	! pole magnetyczne w kierunku z 
+  J_spin=-1,		! sprzezenie miedzy spinami
+  gamma_N=1.e-2,	! sprzezenie do tipu STM
+  temperature=0.00001,	! temperatura
+  cp=1.5,		! potencjal chemiczny
+  disorder=0,		! amplituda nieporzadku
+  magnetic_disorder=.false. /
