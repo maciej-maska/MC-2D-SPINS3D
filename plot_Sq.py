@@ -14,7 +14,7 @@ for i in range(21):
     S1 = Sq.reshape(nqx,nqy)
     S1 += S1.transpose()
     S1 += np.rot90(S1)
-    cax = ax.imshow(S1, extent=(-np.pi,np.pi,-np.pi,np.pi), aspect = 'equal',origin="lower", cmap='PuRd', vmin=0)#,vmax=30)
+    cax = ax.imshow(np.log(S1), extent=(-np.pi,np.pi,-np.pi,np.pi), aspect = 'equal',origin="lower", cmap='PuRd',vmin=0.001,vmax=5)
     ax.set_xticks([-np.pi,0,np.pi])
     ax.set_yticks([-np.pi,0,np.pi])
     ax.xaxis.set_ticklabels([r'$-\pi$',0,r'$\pi$'])

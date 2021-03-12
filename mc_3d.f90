@@ -47,6 +47,9 @@ program majorana
   n = lx*ly
 
   allocate(e(4*n), g(4*n,4*n), h(4*n,4*n), h1(4*n,4*n), ang_xy(n), ang_z(n), rnd(n), u_up(n,4*n), u_dn(n,4*n), v_up(n,4*n), v_dn(n,4*n))
+  
+  call random_seed()
+  
   i_therm = 0
   inquire(FILE="spins_3d.dat", EXIST=old_config)
   if (old_config) then
