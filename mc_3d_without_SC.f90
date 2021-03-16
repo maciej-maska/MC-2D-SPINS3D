@@ -49,7 +49,7 @@ program majorana
   allocate(e(2*n), g(2*n,2*n), h(2*n,2*n), h1(2*n,2*n), ang_xy(n), ang_z(n), rnd(n)) !, u_up(n,4*n), u_dn(n,4*n), v_up(n,4*n), v_dn(n,4*n))
 
   call random_seed()
-  
+
   i_therm = 0
   inquire(FILE="spins_3d.dat", EXIST=old_config)
   if (old_config) then
@@ -77,8 +77,12 @@ program majorana
   i = 0        
   old_free_en = free_energy(e)
   old_en = sum(e(1:n))
-  print *,old_free_en, an_up+an_dn   !,topo(ang_xy,ang_z)
-  
+  an = 0.0
+  do i = 1, 2*n
+    if (e(i)<=0) an = an + 1.0  ! T=0, FD => theta Heviside
+  enddo
+  print *,old_free_en, an/n !, an_up+an_dn   !,topo(ang_xy,ang_z)
+ 
   main_loop: do !###############################################################
      call random_number(r)
      in = int(n*r) + 1
@@ -131,7 +135,7 @@ program majorana
            write(10,*) ang_xy(l), ang_z(l)
         enddo
         close(10)
-        h1=h
+!        h1=h
 !        call heevd(h1, e, jobz='V', info=info)
 !        u_up=h1(1:n,:)
 !        u_dn=h1(n+1:2*n,:)
@@ -139,7 +143,16 @@ program majorana
 !        v_up=h1(3*n+1:4*n,:)
 !        an_up = sum(abs(u_up(:,:2*n))**2)/n  ! brakuje funkcji F-D (T=0)
 !        an_dn = sum(abs(v_dn(:,2*n+1:))**2)/n  ! brakuje funkcji F-D (T=0)
-        print *,free_en !, an_up+an_dn  !,topo(ang_xy,ang_z)
+
+        an = 0.0
+        do i = 1, 2*n
+          if (e(i)<=0) an = an + 1.0 ! T=0, FD => theta Heviside
+        enddo
+        an=an/n
+        open(10,file='n.dat')
+            write(10,*) an
+        close(10)
+        print *,free_en, an !, an_up+an_dn  !,topo(ang_xy,ang_z)
      endif
   enddo main_loop !#############################################################
 end program majorana
@@ -230,7 +243,7 @@ real(8) :: free_energy,expon
 integer :: i
 free_energy=0.
 do i=1,2*n
-   !  expon=-(ens(i)-cp)/temperature
+   ! expon=-(ens(i)-cp)/temperature
    expon=-ens(i)/temperature
    if (expon > 20) then
       free_energy=free_energy+expon

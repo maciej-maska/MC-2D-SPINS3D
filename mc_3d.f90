@@ -151,6 +151,10 @@ program majorana
         v_up=h1(3*n+1:4*n,:)
         an_up = sum(abs(u_up(:,:2*n))**2)/n  ! brakuje funkcji F-D (T=0)
         an_dn = sum(abs(v_dn(:,2*n+1:))**2)/n  ! brakuje funkcji F-D (T=0)
+        an=an/n
+        open(10,file='n.dat')
+            write(10,*) an_up+an_dn
+        close(10)
         print *,free_en, an_up+an_dn  !,topo(ang_xy,ang_z)
      endif
   enddo main_loop !#############################################################
